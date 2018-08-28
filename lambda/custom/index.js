@@ -13,6 +13,11 @@ const GetLegalitiesHandler = {
   },
   async handle(handlerInput) {
     let outputSpeech = "";
+    let title = "";
+    let content = "";
+    let smallImageUrl = "";
+    let largeImageUrl = "";
+
     const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
       .toLowerCase()
       .replace(" ", "+");
@@ -22,6 +27,8 @@ const GetLegalitiesHandler = {
         const data = JSON.parse(response);
         const name = data.name;
         const legalities = data.legalities;
+        smallImageUrl = data.image_uris.small;
+        largeImageUrl = data.image_uris.large;
 
         outputSpeech = `The legalities for ${data.name} are as follows: `;
         Object.keys(legalities).map(function(mode, index) {
@@ -29,14 +36,21 @@ const GetLegalitiesHandler = {
             outputSpeech +
             `${name} is ${legalities[mode].replace("_", " ")} in ${mode},`;
         });
-        console.log("<><><FINAL OUT SPEECH", outputSpeech);
       })
       .catch(err => {
         //set an optional error message here
         outputSpeech = err.message;
       });
 
-    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .withStandardCard(
+        "Legalities",
+        outputSpeech,
+        smallImageUrl,
+        largeImageUrl
+      )
+      .getResponse();
   }
 };
 
@@ -49,6 +63,11 @@ const CardLegalitiesHandler = {
   },
   async handle(handlerInput) {
     let outputSpeech = "";
+    let title = "";
+    let content = "";
+    let smallImageUrl = "";
+    let largeImageUrl = "";
+
     const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
       .toLowerCase()
       .replace(" ", "+");
@@ -59,6 +78,9 @@ const CardLegalitiesHandler = {
         const data = JSON.parse(response);
         const name = data.name;
         const legalities = data.legalities;
+        title = name;
+        smallImageUrl = data.image_uris.small;
+        largeImageUrl = data.image_uris.large;
 
         const rule = legalities[mode].replace("_", " ");
         outputSpeech = `${data.name} is ${rule} in ${mode}`;
@@ -68,7 +90,10 @@ const CardLegalitiesHandler = {
         outputSpeech = err.message;
       });
 
-    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
+      .getResponse();
   }
 };
 
@@ -81,6 +106,11 @@ const GetCardRulingsHandler = {
   },
   async handle(handlerInput) {
     let outputSpeech = "";
+    let title = "";
+    let content = "";
+    let smallImageUrl = "";
+    let largeImageUrl = "";
+
     const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
       .toLowerCase()
       .replace(" ", "+");
@@ -90,11 +120,14 @@ const GetCardRulingsHandler = {
         const data = JSON.parse(response);
         const name = data.name;
         const rulings_uri = data.rulings_uri;
+        title = name;
 
         await getRemoteData(rulings_uri)
           .then(json => {
             const rulings_data = JSON.parse(json);
             const rulings = rulings_data.data;
+            smallImageUrl = data.image_uris.small;
+            largeImageUrl = data.image_uris.large;
 
             if (rulings.length > 0) {
               outputSpeech = `The rulings for ${name} are as follows: \n`;
@@ -119,7 +152,10 @@ const GetCardRulingsHandler = {
         outputSpeech = err.message;
       });
 
-    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+    return handlerInput.responseBuilder
+      .speak(outputSpeech)
+      .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
+      .getResponse();
   }
 };
 
