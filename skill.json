@@ -3,21 +3,27 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "summary":
-            "Provides the total number of astronauts who are currently in space.",
+          "summary": "Provides rulings and legalities for Magic cards.",
           "examplePhrases": [
-            "Alexa, ask API Starter how many people are in space",
-            "Alexa, ask how many astronauts are in space from API Starter",
-            "Alexa, ask API Starter how many humans are in space now"
+            "Alexa, ask Magic Rules to list the legalities for Black Lotus",
+            "Alexa, ask Magic Rules is Academy Drake legal in future",
+            "Alexa, ask Magic Rules for Austere Command rulings"
           ],
-          "keywords": ["space", "astronauts", "rocket"],
+          "keywords": [
+            "magic",
+            "magic the gathering",
+            "gathering",
+            "rulings",
+            "legalities",
+            "games"
+          ],
           "name": "Magic Rules",
           "description":
-            "Guess how many astronauts are currently in space? Know the answer? Alexa does. Just say: Alexa, ask rocket man how many people in space.",
+            "Settle the score with your magic friends by easily asking for the ruling on Magic cards.",
           "smallIconUri":
-            "https://s3.amazonaws.com/cdn.dabblelab.com/img/skill-template-default-sm.png",
+            "https://s3.amazonaws.com/magic-rules-skill/images/icon-108.png",
           "largeIconUri":
-            "https://s3.amazonaws.com/cdn.dabblelab.com/img/skill-template-default-lg.png"
+            "https://s3.amazonaws.com/magic-rules-skill/images/icon-512.png"
         }
       },
       "isAvailableWorldwide": true,
