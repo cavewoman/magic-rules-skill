@@ -1,85 +1,175 @@
 /* eslint-disable  func-names */
 /* eslint-disable  no-console */
 
-const Alexa = require('ask-sdk-core');
+const Alexa = require("ask-sdk-core");
 
-const GetRemoteDataHandler = {
+const GetLegalitiesHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'LaunchRequest'
-      || (handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'GetRemoteDataIntent');
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name ===
+        "ListCardLegalitiesIntent"
+    );
   },
   async handle(handlerInput) {
-    let outputSpeech = 'This is the default message.';
+    let outputSpeech = "";
+    const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
+      .toLowerCase()
+      .replace(" ", "+");
 
-    await getRemoteData('http://api.open-notify.org/astros.json')
-      .then((response) => {
+    await getRemoteData(`https://api.scryfall.com/cards/named?fuzzy=${card}`)
+      .then(response => {
         const data = JSON.parse(response);
-        outputSpeech = `There are currently ${data.people.length} astronauts in space. `;
-        for (let i = 0; i < data.people.length; i++) {
-          if (i === 0) {
-            //first record
-            outputSpeech = outputSpeech + 'Their names are: ' + data.people[i].name + ', '
-          } else if (i === data.people.length - 1) {
-            //last record
-            outputSpeech = outputSpeech + 'and ' + data.people[i].name + '.'
-          } else {
-            //middle record(s)
-            outputSpeech = outputSpeech + data.people[i].name + ', '
-          }
-        }
+        const name = data.name;
+        const legalities = data.legalities;
+
+        outputSpeech = `The legalities for ${data.name} are as follows: `;
+        Object.keys(legalities).map(function(mode, index) {
+          outputSpeech =
+            outputSpeech +
+            `${name} is ${legalities[mode].replace("_", " ")} in ${mode},`;
+        });
+        console.log("<><><FINAL OUT SPEECH", outputSpeech);
       })
-      .catch((err) => {
+      .catch(err => {
         //set an optional error message here
-        //outputSpeech = err.message;
+        outputSpeech = err.message;
       });
 
-    return handlerInput.responseBuilder
-      .speak(outputSpeech)
-      .getResponse();
+    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+  }
+};
 
+const CardLegalitiesHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "CardLegalityIntent"
+    );
   },
+  async handle(handlerInput) {
+    let outputSpeech = "";
+    const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
+      .toLowerCase()
+      .replace(" ", "+");
+    const mode = handlerInput.requestEnvelope.request.intent.slots.mode.value.toLowerCase();
+
+    await getRemoteData(`https://api.scryfall.com/cards/named?fuzzy=${card}`)
+      .then(response => {
+        const data = JSON.parse(response);
+        const name = data.name;
+        const legalities = data.legalities;
+
+        const rule = legalities[mode].replace("_", " ");
+        outputSpeech = `${data.name} is ${rule} in ${mode}`;
+      })
+      .catch(err => {
+        //set an optional error message here
+        outputSpeech = err.message;
+      });
+
+    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+  }
+};
+
+const GetCardRulingsHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "CardRulingsIntent"
+    );
+  },
+  async handle(handlerInput) {
+    let outputSpeech = "";
+    const card = handlerInput.requestEnvelope.request.intent.slots.cardName.value
+      .toLowerCase()
+      .replace(" ", "+");
+
+    await getRemoteData(`https://api.scryfall.com/cards/named?fuzzy=${card}`)
+      .then(async response => {
+        const data = JSON.parse(response);
+        const name = data.name;
+        const rulings_uri = data.rulings_uri;
+
+        await getRemoteData(rulings_uri)
+          .then(json => {
+            const rulings_data = JSON.parse(json);
+            const rulings = rulings_data.data;
+
+            if (rulings.length > 0) {
+              outputSpeech = `The rulings for ${name} are as follows: \n`;
+
+              rulings.map(function(rule) {
+                outputSpeech =
+                  outputSpeech +
+                  ` ${rule["source"]} ${rule["object"]} on ${
+                    rule["published_at"]
+                  }: ${rule["comment"]} \n`;
+              });
+            } else {
+              outputSpeech = `There are currently no rulings for ${card}`;
+            }
+          })
+          .catch(rulings_err => {
+            outputSpeech = rulings_err.message;
+          });
+      })
+      .catch(err => {
+        //set an optional error message here
+        outputSpeech = err.message;
+      });
+
+    return handlerInput.responseBuilder.speak(outputSpeech).getResponse();
+  }
 };
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "AMAZON.HelpIntent"
+    );
   },
   handle(handlerInput) {
-    const speechText = 'You can introduce yourself by telling me your name';
+    const speechText = "You can introduce yourself by telling me your name";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
       .getResponse();
-  },
+  }
 };
 
 const CancelAndStopIntentHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-      && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
-        || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      (handlerInput.requestEnvelope.request.intent.name ===
+        "AMAZON.CancelIntent" ||
+        handlerInput.requestEnvelope.request.intent.name ===
+          "AMAZON.StopIntent")
+    );
   },
   handle(handlerInput) {
-    const speechText = 'Goodbye!';
+    const speechText = "Goodbye!";
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .getResponse();
-  },
+    return handlerInput.responseBuilder.speak(speechText).getResponse();
+  }
 };
 
 const SessionEndedRequestHandler = {
   canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
+    return handlerInput.requestEnvelope.request.type === "SessionEndedRequest";
   },
   handle(handlerInput) {
-    console.log(`Session ended with reason: ${handlerInput.requestEnvelope.request.reason}`);
+    console.log(
+      `Session ended with reason: ${
+        handlerInput.requestEnvelope.request.reason
+      }`
+    );
 
     return handlerInput.responseBuilder.getResponse();
-  },
+  }
 };
 
 const ErrorHandler = {
@@ -90,36 +180,37 @@ const ErrorHandler = {
     console.log(`Error handled: ${error.message}`);
 
     return handlerInput.responseBuilder
-      .speak('Sorry, I can\'t understand the command. Please say again.')
-      .reprompt('Sorry, I can\'t understand the command. Please say again.')
+      .speak("Sorry, I can't understand the command. Please say again.")
+      .reprompt("Sorry, I can't understand the command. Please say again.")
       .getResponse();
-  },
+  }
 };
 
-const getRemoteData = function (url) {
+const getRemoteData = function(url) {
   return new Promise((resolve, reject) => {
-    const client = url.startsWith('https') ? require('https') : require('http');
-    const request = client.get(url, (response) => {
+    const client = url.startsWith("https") ? require("https") : require("http");
+    const request = client.get(url, response => {
       if (response.statusCode < 200 || response.statusCode > 299) {
-        reject(new Error('Failed with status code: ' + response.statusCode));
+        reject(new Error("Failed with status code: " + response.statusCode));
       }
       const body = [];
-      response.on('data', (chunk) => body.push(chunk));
-      response.on('end', () => resolve(body.join('')));
+      response.on("data", chunk => body.push(chunk));
+      response.on("end", () => resolve(body.join("")));
     });
-    request.on('error', (err) => reject(err))
-  })
+    request.on("error", err => reject(err));
+  });
 };
 
 const skillBuilder = Alexa.SkillBuilders.custom();
 
 exports.handler = skillBuilder
   .addRequestHandlers(
-    GetRemoteDataHandler,
+    GetLegalitiesHandler,
+    CardLegalitiesHandler,
+    GetCardRulingsHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
   )
   .addErrorHandlers(ErrorHandler)
   .lambda();
-

@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "api starter",
+      "invocationName": "magic rules",
       "types": [],
       "intents": [
         {
@@ -17,18 +17,47 @@
           "samples": []
         },
         {
-          "name": "GetRemoteDataIntent",
-          "slots": [],
+          "name": "ListCardLegalitiesIntent",
+          "slots": [
+            {
+              "name": "cardName",
+              "type": "AMAZON.LITERAL"
+            }
+          ],
           "samples": [
-            "how many people are in space",
-            "how many people are in space now",
-            "how many people are currently in space",
-            "how many humans are in space",
-            "how many humans are in space now",
-            "how many humans are currently in space",
-            "how many astronauts are in space",
-            "how many astronauts are in space now",
-            "how many astronauts are currently in space"
+            "to list the legalities for {Black Lotus | cardName}",
+            "what are the legalities for {Black Lotus| cardName}"
+          ]
+        },
+
+        {
+          "name": "CardLegalityIntent",
+          "slots": [
+            {
+              "name": "cardName",
+              "type": "AMAZON.LITERAL"
+            },
+            {
+              "name": "mode",
+              "type": "AMAZON.LITERAL"
+            }
+          ],
+          "samples": [
+            "if {Black Lotus | cardName} is legal in {standard | mode}",
+            "is {Black Lotus | cardName} legal in {standard | mode}"
+          ]
+        },
+        {
+          "name": "CardRulingsIntent",
+          "slots": [
+            {
+              "name": "cardName",
+              "type": "AMAZON.LITERAL"
+            }
+          ],
+          "samples": [
+            "for {Black Lotus | cardName} rulings",
+            "what are the rulings for {Black Lotus | cardName}"
           ]
         }
       ]
