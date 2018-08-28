@@ -140,7 +140,7 @@ const GetCardRulingsHandler = {
                   }: ${rule["comment"]} \n`;
               });
             } else {
-              outputSpeech = `There are currently no rulings for ${card}`;
+              outputSpeech = `There are currently no rulings for ${name}`;
             }
           })
           .catch(rulings_err => {
