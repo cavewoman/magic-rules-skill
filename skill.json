@@ -6,8 +6,8 @@
           "summary": "Provides rulings and legalities for Magic cards.",
           "examplePhrases": [
             "Alexa, ask Magic Rules to list the legalities for Black Lotus",
-            "Alexa, ask Magic Rules is Academy Drake legal in future",
-            "Alexa, ask Magic Rules for Austere Command rulings"
+            "Alexa, ask Magic Rules whether Academy Drake is legal in future",
+            "Alexa, ask Magic Rules what are the rulings for Fiend Hunter"
           ],
           "keywords": [
             "magic",
@@ -19,7 +19,7 @@
           ],
           "name": "Magic Rules",
           "description":
-            "Settle the score with your magic friends by easily asking for the ruling on Magic cards.",
+            "Settle the score with your magic friends by easily asking for the ruling on Magic cards. ",
           "smallIconUri":
             "https://s3.amazonaws.com/magic-rules-skill/images/icon-108.png",
           "largeIconUri":

@@ -44,6 +44,7 @@ const GetLegalitiesHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
+      .reprompt(outputSpeech)
       .withStandardCard(
         "Legalities",
         outputSpeech,
@@ -92,6 +93,7 @@ const CardLegalitiesHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
+      .reprompt(outputSpeech)
       .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
       .getResponse();
   }
@@ -154,7 +156,22 @@ const GetCardRulingsHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
+      .reprompt(outputSpeech)
       .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
+      .getResponse();
+  }
+};
+
+const IntroIntentHandler = {
+  canHandle(handlerInput) {
+    return handlerInput.requestEnvelope.request.type === "LaunchRequest";
+  },
+  handle(handlerInput) {
+    const speechText = "Welcome to Magic Rules!";
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
       .getResponse();
   }
 };
@@ -167,11 +184,108 @@ const HelpIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const speechText = "You can introduce yourself by telling me your name";
+    const speechText =
+      "What would you like help with? You can say, 'What can I do?' if you are unsure.";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
+      .getResponse();
+  }
+};
+
+const WhatCanIDoIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "WhatCanIDoIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText =
+      "Magic Rules allows you to check on legalities and rulings on Magic The Gathering Cards. " +
+      "You can ask, 'what are the legalities for Diviner Spirit'. " +
+      "This will list what decks this card is legal and illegal in. " +
+      "You can ask, 'is Diviner Spirit legal in Standard'." +
+      "This will tell you if the card is legal, illegal or banned in Standard." +
+      "You can ask, 'what are the rulings for Diviner Spirit'. " +
+      "This will list all the rules for the card.";
+
+    const options =
+      "You can ask 'what are the legalities for Diviner Spirit'. \n" +
+      "You can ask 'is Diviner Spirit legal in Standard' \n" +
+      "You can ask 'what are the rulings for Diviner Spirit'. ";
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("What can I do?", options)
+      .getResponse();
+  }
+};
+
+const HowToListLegalitiesHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name ===
+        "HowToListLegalitiesIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText =
+      "You can list the legalities for a card by saying: " +
+      "'What are the legalities for Diviner Spirit', " +
+      "where 'Diviner Spirit' is the name of the card you are interested in.";
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("Legalities", speechText)
+      .getResponse();
+  }
+};
+
+const HowToCheckLegalityOfCardHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name ===
+        "HowToCheckLegalityOfCardIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText =
+      "You can check if a card is legal for a deck by saying: " +
+      "'is Black Lotus legal in standard', " +
+      "where 'Black Lotus' is the name of the card you are interested in and standard is the deck type.";
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("Legality for Card", speechText)
+      .getResponse();
+  }
+};
+
+const HowToListCardRulingsHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name ===
+        "HowToListCardRulingsIntent"
+    );
+  },
+  handle(handlerInput) {
+    const speechText =
+      "You can hear the rulings for a card by saying: " +
+      "'What are the rulings for Diviner Spirit', " +
+      "where 'Diviner Spirit' is the name of the card you are interested in.";
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("Rulings", speechText)
       .getResponse();
   }
 };
@@ -244,7 +358,9 @@ exports.handler = skillBuilder
     GetLegalitiesHandler,
     CardLegalitiesHandler,
     GetCardRulingsHandler,
+    IntroIntentHandler,
     HelpIntentHandler,
+    WhatCanIDoIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
   )

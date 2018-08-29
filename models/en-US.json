@@ -17,6 +17,15 @@
           "samples": []
         },
         {
+          "name": "WhatCanIDoIntent",
+          "samples": [
+            "what can I do",
+            "what does Magic Rules do",
+            "what is available",
+            "what is the point of this app"
+          ]
+        },
+        {
           "name": "ListCardLegalitiesIntent",
           "slots": [
             {
@@ -26,10 +35,11 @@
           ],
           "samples": [
             "to list the legalities for {Black Lotus | cardName}",
-            "what are the legalities for {Black Lotus| cardName}"
+            "what are the legalities for {Black Lotus| cardName}",
+            "where is {Black Lotus | cardName} legal",
+            "list the legalities for {Black Lotus | cardName}"
           ]
         },
-
         {
           "name": "CardLegalityIntent",
           "slots": [
@@ -44,7 +54,8 @@
           ],
           "samples": [
             "if {Black Lotus | cardName} is legal in {standard | mode}",
-            "is {Black Lotus | cardName} legal in {standard | mode}"
+            "is {Black Lotus | cardName} legal in {standard | mode}",
+            "whether {Black Lotus | cardName} is legal in {standard | mode}"
           ]
         },
         {
