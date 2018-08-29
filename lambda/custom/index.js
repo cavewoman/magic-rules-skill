@@ -3,6 +3,21 @@
 
 const Alexa = require("ask-sdk-core");
 
+const deckTypes = [
+  "standard",
+  "future",
+  "frontier",
+  "modern",
+  "legacy",
+  "pauper",
+  "vintage",
+  "penny",
+  "commander",
+  "1v1",
+  "duel",
+  "brawl"
+];
+
 const GetLegalitiesHandler = {
   canHandle(handlerInput) {
     return (
@@ -38,8 +53,12 @@ const GetLegalitiesHandler = {
         });
       })
       .catch(err => {
-        //set an optional error message here
-        outputSpeech = err.message;
+        outputSpeech =
+          outputSpeech +
+          `I was unable to find the card ${card.replace(
+            "+",
+            " "
+          )}. Please make sure you are requesting a valid Magic the Gathering card.`;
       });
 
     return handlerInput.responseBuilder
@@ -83,12 +102,25 @@ const CardLegalitiesHandler = {
         smallImageUrl = data.image_uris.small;
         largeImageUrl = data.image_uris.large;
 
-        const rule = legalities[mode].replace("_", " ");
-        outputSpeech = `${data.name} is ${rule} in ${mode}`;
+        const validDeckType = deckTypes.includes(mode);
+        if (validDeckType) {
+          const rule = legalities[mode].replace("_", " ");
+          outputSpeech = `${name} is ${rule} in ${mode}.`;
+        } else {
+          outputSpeech =
+            `I found ${name}, however, ${mode} is not a valid deck type. ` +
+            ` Please try again with a valid deck type.` +
+            ` Valid deck types are: ${deckTypes.join(", ")}`;
+        }
       })
       .catch(err => {
         //set an optional error message here
-        outputSpeech = err.message;
+        outputSpeech =
+          outputSpeech +
+          `I was unable to find the card ${card.replace(
+            "+",
+            " "
+          )}. Please make sure you are requesting a valid Magic the Gathering card.`;
       });
 
     return handlerInput.responseBuilder
@@ -142,16 +174,22 @@ const GetCardRulingsHandler = {
                   }: ${rule["comment"]} \n`;
               });
             } else {
-              outputSpeech = `There are currently no rulings for ${name}`;
+              outputSpeech =
+                outputSpeech + `There are currently no rulings for ${name}`;
             }
           })
           .catch(rulings_err => {
-            outputSpeech = rulings_err.message;
+            outputSpeech =
+              outputSpeech +
+              `I was able to locate the card ${name}, however, there seems to be an issue finding its rulings. It is safe to assume there are no rulings for this card.`;
           });
       })
       .catch(err => {
         //set an optional error message here
-        outputSpeech = err.message;
+        outputSpeech = `I was unable to find the card ${card.replace(
+          "+",
+          " "
+        )}. Please make sure you are requesting a valid Magic the Gathering card.`;
       });
 
     return handlerInput.responseBuilder
@@ -206,14 +244,14 @@ const WhatCanIDoIntentHandler = {
       "Magic Rules allows you to check on legalities and rulings on Magic The Gathering Cards. " +
       "You can ask, 'what are the legalities for Diviner Spirit'. " +
       "This will list what decks this card is legal and illegal in. " +
-      "You can ask, 'is Diviner Spirit legal in Standard'." +
+      "You can ask, 'can I play Diviner Spirit in Standard'." +
       "This will tell you if the card is legal, illegal or banned in Standard." +
       "You can ask, 'what are the rulings for Diviner Spirit'. " +
       "This will list all the rules for the card.";
 
     const options =
       "You can ask 'what are the legalities for Diviner Spirit'. \n" +
-      "You can ask 'is Diviner Spirit legal in Standard' \n" +
+      "You can ask 'can I play Diviner Spirit in Standard' \n" +
       "You can ask 'what are the rulings for Diviner Spirit'. ";
 
     return handlerInput.responseBuilder

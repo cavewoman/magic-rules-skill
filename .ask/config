@@ -17,11 +17,11 @@
       "in_skill_products": [],
       "resources": {
         "manifest": {
-          "eTag": "f67e97786a8c6d55802bb84f9106ed36"
+          "eTag": "7584590cc765df5c65dc0f2a1b1f5299"
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "d22518e6e467dd26fe71297dd148da21"
+            "eTag": "21e1f6492499837cb4ce09354bc78aa7"
           }
         },
         "lambda": [
@@ -32,7 +32,7 @@
             "alexaUsage": [
               "custom/default"
             ],
-            "revisionId": "1cc87564-e448-45a4-b8c1-5308d9e9efb9"
+            "revisionId": "2f3fca88-54a1-456c-bd6f-5918ed30d9ad"
           }
         ]
       }

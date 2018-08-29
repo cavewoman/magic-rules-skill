@@ -3,10 +3,11 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "summary": "Provides rulings and legalities for Magic cards.",
+          "summary":
+            "Provides rulings and legalities for Magic the Gathering cards.",
           "examplePhrases": [
             "Alexa, ask Magic Rules to list the legalities for Black Lotus",
-            "Alexa, ask Magic Rules whether Academy Drake is legal in future",
+            "Alexa, ask Magic Rules can I play Academy Drake in future",
             "Alexa, ask Magic Rules what are the rulings for Fiend Hunter"
           ],
           "keywords": [
@@ -19,7 +20,7 @@
           ],
           "name": "Magic Rules",
           "description":
-            "Settle the score with your magic friends by easily asking for the ruling on Magic cards. ",
+            "Settle the score with your magic friends by easily asking for the ruling on Magic the Gathering cards. You can all check to see if your card is legal in a certain type of deck. Or even just list all the decks that a card is legal in.",
           "smallIconUri":
             "https://s3.amazonaws.com/magic-rules-skill/images/icon-108.png",
           "largeIconUri":

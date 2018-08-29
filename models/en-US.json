@@ -35,9 +35,25 @@
           ],
           "samples": [
             "to list the legalities for {Black Lotus | cardName}",
-            "what are the legalities for {Black Lotus| cardName}",
+            "what are the legalities for {Black Lotus | cardName}",
             "where is {Black Lotus | cardName} legal",
-            "list the legalities for {Black Lotus | cardName}"
+            "list the legalities for {Black Lotus | cardName}",
+            "to list the legalities for {Forest | cardName}",
+            "what are the legalities for {Forest | cardName}",
+            "where is {Forest | cardName} legal",
+            "list the legalities for {Forest | cardName}",
+            "to list the legalities for {Tempt with Glory | cardName}",
+            "what are the legalities for {Tempt with Glory | cardName}",
+            "where is {Tempt with Glory | cardName} legal",
+            "list the legalities for {Tempt with Glory | cardName}",
+            "to list the legalities for {Lu Xun Scholar General | cardName}",
+            "what are the legalities for {Lu Xun Scholar General | cardName}",
+            "where is {Lu Xun Scholar General | cardName} legal",
+            "list the legalities for {Lu Xun Scholar General | cardName}",
+            "to list the legalities for {Temple of the False God | cardName}",
+            "what are the legalities for {Temple of the False God | cardName}",
+            "where is {Temple of the False God | cardName} legal",
+            "list the legalities for {Temple of the False God | cardName}"
           ]
         },
         {
@@ -55,7 +71,29 @@
           "samples": [
             "if {Black Lotus | cardName} is legal in {standard | mode}",
             "is {Black Lotus | cardName} legal in {standard | mode}",
-            "whether {Black Lotus | cardName} is legal in {standard | mode}"
+            "whether {Black Lotus | cardName} is legal in {standard | mode}",
+            "can I play {Black Lotus | cardName} in {standard | mode}",
+            "if I can I play {Black Lotus | cardName} in {standard | mode}",
+            "if {Forest | cardName} is legal in {standard | mode}",
+            "is {Forest | cardName} legal in {standard | mode}",
+            "whether {Forest | cardName} is legal in {standard | mode}",
+            "can I play {Forest | cardName} in {standard | mode}",
+            "if I can I play {Forest | cardName} in {standard | mode}",
+            "if {Tempt with Glory | cardName} is legal in {standard | mode}",
+            "is {Tempt with Glory | cardName} legal in {standard | mode}",
+            "whether {Tempt with Glory | cardName} is legal in {standard | mode}",
+            "can I play {Tempt with Glory | cardName} in {standard | mode}",
+            "if I can I play {Tempt with Glory | cardName} in {standard | mode}",
+            "if {Lu Zun Scholar General | cardName} is legal in {standard | mode}",
+            "is {Lu Zun Scholar General | cardName} legal in {standard | mode}",
+            "whether {Lu Zun Scholar General | cardName} is legal in {standard | mode}",
+            "can I play {Lu Zun Scholar General | cardName} in {standard | mode}",
+            "if can I play {Lu Zun Scholar General | cardName} in {standard | mode}",
+            "if {Temple of the false god | cardName} is legal in {standard | mode}",
+            "is {Temple of the false god | cardName} legal in {standard | mode}",
+            "whether {Temple of the false god | cardName} is legal in {standard | mode}",
+            "can I play {Temple of the false god | cardName} in {standard | mode}",
+            "if I can I play {Temple of the false god | cardName} in {standard | mode}"
           ]
         },
         {
@@ -68,7 +106,15 @@
           ],
           "samples": [
             "for {Black Lotus | cardName} rulings",
-            "what are the rulings for {Black Lotus | cardName}"
+            "what are the rulings for {Black Lotus | cardName}",
+            "for {Forest | cardName} rulings",
+            "what are the rulings for {Forest | cardName}",
+            "for {Tempt with Glory | cardName} rulings",
+            "what are the rulings for {Tempt with Glory | cardName}",
+            "for {Lu Xun Scholar General | cardName} rulings",
+            "what are the rulings for {Lu Xun Scholar General | cardName}",
+            "for {Temple of the False God | cardName} rulings",
+            "what are the rulings for {Temple of the False God | cardName}"
           ]
         }
       ]
