@@ -45,11 +45,11 @@ const GetLegalitiesHandler = {
         smallImageUrl = data.image_uris.small;
         largeImageUrl = data.image_uris.large;
 
-        outputSpeech = `The legalities for ${data.name} are as follows: `;
+        outputSpeech = `The legalities for ${data.name} are as follows: \n\n`;
         Object.keys(legalities).map(function(mode, index) {
           outputSpeech =
             outputSpeech +
-            `${name} is ${legalities[mode].replace("_", " ")} in ${mode},`;
+            `${name} is ${legalities[mode].replace("_", " ")} in ${mode}, \n\n`;
         });
       })
       .catch(err => {
@@ -63,7 +63,6 @@ const GetLegalitiesHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
-      .reprompt(outputSpeech)
       .withStandardCard(
         "Legalities",
         outputSpeech,
@@ -125,7 +124,6 @@ const CardLegalitiesHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
-      .reprompt(outputSpeech)
       .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
       .getResponse();
   }
@@ -164,14 +162,14 @@ const GetCardRulingsHandler = {
             largeImageUrl = data.image_uris.large;
 
             if (rulings.length > 0) {
-              outputSpeech = `The rulings for ${name} are as follows: \n`;
+              outputSpeech = `The rulings for ${name} are as follows: \n\n`;
 
               rulings.map(function(rule) {
                 outputSpeech =
                   outputSpeech +
                   ` ${rule["source"]} ${rule["object"]} on ${
                     rule["published_at"]
-                  }: ${rule["comment"]} \n`;
+                  }: ${rule["comment"]} \n\n`;
               });
             } else {
               outputSpeech =
@@ -194,7 +192,6 @@ const GetCardRulingsHandler = {
 
     return handlerInput.responseBuilder
       .speak(outputSpeech)
-      .reprompt(outputSpeech)
       .withStandardCard(title, outputSpeech, smallImageUrl, largeImageUrl)
       .getResponse();
   }
@@ -205,11 +202,13 @@ const IntroIntentHandler = {
     return handlerInput.requestEnvelope.request.type === "LaunchRequest";
   },
   handle(handlerInput) {
-    const speechText = "Welcome to Magic Rules!";
+    const speechText =
+      "Welcome to Magic Rules! Ask, what can I do, to discover what Magic Rules does!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
+      .withSimpleCard("Welcome To Magic Rules", "Ask, 'What can I do'")
       .getResponse();
   }
 };
@@ -228,6 +227,7 @@ const HelpIntentHandler = {
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
+      .withSimpleCard("Magic Rules Help", "Ask, 'What can I do'")
       .getResponse();
   }
 };
@@ -241,23 +241,27 @@ const WhatCanIDoIntentHandler = {
   },
   handle(handlerInput) {
     const speechText =
-      "Magic Rules allows you to check on legalities and rulings on Magic The Gathering Cards. " +
-      "You can ask, 'what are the legalities for Diviner Spirit'. " +
+      "Magic Rules allows you to check on the legalities and rulings on Magic The Gathering Cards. " +
+      "You can ask, what are the legalities for Diviner Spirit. " +
       "This will list what decks this card is legal and illegal in. " +
-      "You can ask, 'can I play Diviner Spirit in Standard'." +
-      "This will tell you if the card is legal, illegal or banned in Standard." +
-      "You can ask, 'what are the rulings for Diviner Spirit'. " +
-      "This will list all the rules for the card.";
+      "You can ask, can I play Diviner Spirit in Standard. " +
+      "This will tell you if the card is legal, illegal or banned in Standard. " +
+      "You can ask, what are the rulings for Diviner Spirit. " +
+      "This will list all the rulings for the card.";
 
     const options =
-      "You can ask 'what are the legalities for Diviner Spirit'. \n" +
-      "You can ask 'can I play Diviner Spirit in Standard' \n" +
-      "You can ask 'what are the rulings for Diviner Spirit'. ";
+      "Alexa, ask Magic Rules what are the legalities for Diviner Spirit \n\n" +
+      "Alexa, ask Magic Rules can I play Diviner Spirit in Standard \n\n" +
+      "Alexa, ask Magic Rules what are the rulings for Diviner Spirit";
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .reprompt(speechText)
-      .withSimpleCard("What can I do?", options)
+      .withStandardCard(
+        "What can I do?",
+        options,
+        "https://s3.amazonaws.com/magic-rules-skill/images/small+question+mark+card.png",
+        "https://s3.amazonaws.com/magic-rules-skill/images/large+question+mark+card.png"
+      )
       .getResponse();
   }
 };
