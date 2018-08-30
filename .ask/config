@@ -8,7 +8,7 @@
           "apis": {
             "custom": {
               "endpoint": {
-                "uri": "ask-custom-api-starter-default"
+                "uri": "magic-rules-skill-api"
               }
             }
           }
@@ -17,7 +17,7 @@
       "in_skill_products": [],
       "resources": {
         "manifest": {
-          "eTag": "7584590cc765df5c65dc0f2a1b1f5299"
+          "eTag": "00bb51647a8f02841697ecf2b5b30737"
         },
         "interactionModel": {
           "en-US": {
@@ -26,13 +26,13 @@
         },
         "lambda": [
           {
-            "arn": "arn:aws:lambda:us-east-1:467289463218:function:ask-custom-api-starter-default",
-            "functionName": "arn:aws:lambda:us-east-1:467289463218:function:ask-custom-api-starter-default",
+            "arn": "arn:aws:lambda:us-east-1:467289463218:function:magic-rules-skill-api",
+            "functionName": "magic-rules-skill-api",
             "awsRegion": "us-east-1",
             "alexaUsage": [
               "custom/default"
             ],
-            "revisionId": "3110a439-b69e-4457-8dd5-94f771062165"
+            "revisionId": "c1183661-d3a3-4613-9ef1-2abbc1cdc190"
           }
         ]
       }
